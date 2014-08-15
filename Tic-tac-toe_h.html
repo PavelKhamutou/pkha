@@ -3,9 +3,10 @@
     <head>
         <title>Tic-tac-toe</title>
         <link rel="stylesheet" type="text/css" href="Tic-tac-toe.css" />
+        <script type="text/javascript" src="Tic-tac-toe.js"></script> 
         
     </head>
-    <body>
+    <body onload="getNames();">
         <div id="backgr">
         <header>
             <h1>Tic-tac-toe!</h1>
@@ -19,22 +20,41 @@
         </header>
         <div id="gamefield">
             <div class="player">
-                <p class="player">Name: </p>
-                <p class="player">Score: </p>
+                <h2 class="player">Player 1</h2> <hr />
+                <p id="player1" class="player">Name: </p>
+                <p id="player1" class="player">Score: </p>
             </div>
             
             
             <div id="game">
                 
-                <div class="square" id="one"></div> <!-- 1 -->
-                <div class="square" id="two"></div> <!-- 2 -->
-                <div class="square" id="three"></div> <!-- 3 -->
-                <div class="square" id="four"></div> <!-- 4 -->
-                <div class="square" id="five"></div> <!-- 5 -->
-                <div class="square" id="six"></div> <!-- 6 -->
-                <div class="square" id="seven"></div> <!-- 7 -->
-                <div class="square" id="eight"></div> <!-- 8 -->
-                <div class="square" id="nine"></div> <!-- 9 -->
+                <div class="square" id="one" onclick="checkOrder();">
+                    <canvas id="can1" width="190" height="190"></canvas>
+                </div> <!-- 1 -->
+                <div class="square" id="two">
+                    <canvas id="can2" width="190" height="190"></canvas>
+                </div> <!-- 2 -->
+                <div class="square" id="three">
+                    <canvas id="can3" width="190" height="190"></canvas>
+                </div> <!-- 3 -->
+                <div class="square" id="four">
+                    <canvas id="can4" width="190" height="190"></canvas>
+                </div> <!-- 4 -->
+                <div class="square" id="five">
+                    <canvas id="can5" width="190" height="190"></canvas>
+                </div> <!-- 5 -->
+                <div class="square" id="six">
+                    <canvas id="can6" width="190" height="190"></canvas>
+                </div> <!-- 6 -->
+                <div class="square" id="seven">
+                    <canvas id="can7" width="190" height="190"></canvas>
+                </div> <!-- 7 -->
+                <div class="square" id="eight">
+                    <canvas id="can8" width="190" height="190"></canvas>
+                </div> <!-- 8 -->
+                <div class="square" id="nine">
+                    <canvas id="can9" width="190" height="190"></canvas>
+                </div> <!-- 9 -->
                     
           
             
@@ -44,8 +64,9 @@
             
             
             <div class="player">
-                <p class="player">Name: </p>
-                <p class="player">Score: </p>
+                <h2 class="player">Player 2</h2> <hr />
+                <p id="player2" class="player">Name: </p>
+                <p id="player2" class="player">Score: </p>
             </div>
             
             
