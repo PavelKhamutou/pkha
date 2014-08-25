@@ -18,11 +18,16 @@
                 
             </nav>
         </header>
+            
+        <div id="reser"> 
+            <button id="reserButton" onclick="reset();">Reset</button> 
+            <button id="switchButton" onclick="switchPlayers();">Switch</button>
+        </div>
         <div id="gamefield">
             <div class="player">
-                <h2 class="player">Player 1</h2> <hr />
-                <p id="player1Name" class="player">Name: </p>
-                <p id="player1Score" class="player">Score: </p>
+                <h2 class="player">Player 1 (Crosses)</h2> <hr />
+                <p class="player">Name: <span id="player1Name"></span></p>
+                <p class="player">Score: <span id="p1score"></span> </p>
             </div>
             
             
@@ -65,9 +70,9 @@
             
             
             <div class="player">
-                <h2 class="player">Player 2</h2> <hr />
-                <p id="player2Name" class="player">Name: </p>
-                <p id="player2Score" class="player">Score: </p>
+                <h2 class="player">Player 2 (Zeros)</h2> <hr />
+                <p class="player">Name: <span id="player2Name"></span></p>
+                <p id="player2Score" class="player">Score: <span id="p2score"></span></p>
             </div>
             
             
