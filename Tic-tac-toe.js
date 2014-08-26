@@ -47,10 +47,12 @@ Game.prototype.changeStates = function(i){
     if(game.turn == true){
         game.cross[i] = true;
         game.crossCount++;
+        //game.turn = false;
     }
     else{
         game.zero[i] = true;
         game.zeroCount++;
+        //game.turn = true;
     }
     game.state[i] = false;
     
@@ -64,11 +66,13 @@ Game.prototype.changeStates = function(i){
                 j++;                
                 if(j == 9){
                     alert("Dead Heat!");
-                    reset();
                 }
             }
         }//for
     }
+    
+    changeTurn();
+    
     
     
 };
@@ -192,6 +196,7 @@ Game.prototype.checkWinner = function(){
         }
     }
     
+    
 };
 
 function drawFigure(canID){
@@ -258,8 +263,11 @@ Game.prototype.clearArea = function(){
     }
 };
 
-function changeTurn(s){
-    game.turn = s;
+function changeTurn(){
+    if(game.turn == true)
+        game.turn = false;
+    else
+        game.turn = true;
 }
 
 function checkOrder(cell) {
@@ -271,63 +279,63 @@ function checkOrder(cell) {
                     if(game.state[0] == true){
                         drawFigure(game.canvasID[0]);
                         game.changeStates(0);
-                        changeTurn(false);
+                        //changeTurn(false);
                     }
                     break;
             case "two":
                     if(game.state[1] == true){
                         drawFigure(game.canvasID[1]);
                         game.changeStates(1);
-                        changeTurn(false);
+                        //changeTurn(false);
                     }
                     break;
             case "three":
                     if(game.state[2] == true){
                         drawFigure(game.canvasID[2]);
                         game.changeStates(2);
-                        changeTurn(false);
+                        //changeTurn(false);
                     }
                     break;
             case "four":
                     if(game.state[3] == true){
                         drawFigure(game.canvasID[3]);
                         game.changeStates(3);  
-                        changeTurn(false);
+                        //changeTurn(false);
                     }
                     break;
             case "five":
                     if(game.state[4] == true){
                         drawFigure(game.canvasID[4]);
                         game.changeStates(4);
-                        changeTurn(false);
+                        //changeTurn(false);
                     }
                     break;
             case "six":
                     if(game.state[5] == true){
                         drawFigure(game.canvasID[5]);
                         game.changeStates(5);
-                        changeTurn(false);
+                        //changeTurn(false);
                     }
                     break;
             case "seven":
                     if(game.state[6] == true){
                         drawFigure(game.canvasID[6]);
                         game.changeStates(6);
-                        changeTurn(false);
+                        //changeTurn(false);
                     }
                     break;
             case "eight":
                     if(game.state[7] == true){
                         drawFigure(game.canvasID[7]);
                         game.changeStates(7);
-                        changeTurn(false);
+                        //changeTurn(false);
                     }
                     break;
             case "nine":
                     if(game.state[8] == true){
                         drawFigure(game.canvasID[8]);
                         game.changeStates(8);
-                        changeTurn(false);
+                        //changeTurn(false);
                     }
                     break;
 
@@ -340,63 +348,63 @@ function checkOrder(cell) {
                     if(game.state[0] == true){
                         drawFigure(game.canvasID[0]);
                         game.changeStates(0);
-                        changeTurn(true);
+                        //changeTurn(true);
                     }
                     break;
             case "two":
                     if(game.state[1] == true){
                         drawFigure(game.canvasID[1]);
                         game.changeStates(1);
-                        changeTurn(true);
+                        //changeTurn(true);
                     }
                     break;
             case "three":
                     if(game.state[2] == true){
                         drawFigure(game.canvasID[2]);
                         game.changeStates(2);
-                        changeTurn(true);
+                        //changeTurn(true);
                     }
                     break;
             case "four":
                     if(game.state[3] == true){
                         drawFigure(game.canvasID[3]);
                         game.changeStates(3);    
-                        changeTurn(true);
+                        //changeTurn(true);
                     }
                     break;
             case "five":
                     if(game.state[4] == true){
                         drawFigure(game.canvasID[4]);
                         game.changeStates(4);
-                        changeTurn(true);
+                        //changeTurn(true);
                     }
                     break;
             case "six":
                     if(game.state[5] == true){
                         drawFigure(game.canvasID[5]);
                         game.changeStates(5);
-                        changeTurn(true);
+                        //changeTurn(true);
                     }
                     break;
             case "seven":
                     if(game.state[6] == true){
                         drawFigure(game.canvasID[6]);
                         game.changeStates(6);
-                        changeTurn(true);
+                        //changeTurn(true);
                     }
                     break;
             case "eight":
                     if(game.state[7] == true){
                         drawFigure(game.canvasID[7]);
                         game.changeStates(7);
-                        changeTurn(true);
+                        //changeTurn(true);
                     }
                     break;
             case "nine":
                     if(game.state[8] == true){
                         drawFigure(game.canvasID[8]);
                         game.changeStates(8);
-                        changeTurn(true);
+                        //changeTurn(true);
                     }
                     break;
 
