@@ -243,6 +243,15 @@ function drawFigure(canID){
     }
 }
 
+
+function resetScore(){
+    reset();
+    game.p1_score = 0;
+    game.p2_score = 0;
+    document.getElementById("p1score").innerHTML = game.p1_score;
+    document.getElementById("p2score").innerHTML = game.p2_score;
+}
+
 function reset(){
     game.turn = true;
     game.state = [true, true, true, true, true, true, true, true, true];
