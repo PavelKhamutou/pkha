@@ -1,18 +1,39 @@
+/*
+    functions:
+        function Game(name1, name2) - constructor.
+        void getNames() - asks users to input their names, creates object 'Game' and displays names/scores. 
+        void checkOrder(cell) - choses appropriate cell, depends on where user clicked on. Sends corresponding canvas id to draw fanction. 
+        void reset() - clears gamefield. Reset all temporary data. Connected with 'Reset Field' button.
+        void resetScore() - calls reser() function to clear field and reset score (set to 0). Connected with 'Reset Score' button.
+        void switchPlayers() - calls reser() function to clear field and switch palyers' places. Connected with 'Switch' button.
+    methods:
+        void drawFigure(game.canvasID[]) - gets as input current canvas id and draw figure (cross or zero) depend on turn. When winner is defined 
+                                           function redrows won composition in red color to highlite it.  
+        void changeState(i) - marks clicked cells to not allow them to be used twice. Calls function to check whether we have a winner and changes                                   turn.
+        void setScore() - counts and displays score and block game field.
+        bool checkWinner() - checks winnig combinations and if matched one is reached calls drawFigure function to redraw it in red color.
+        void clearArea() - erases all canvas. 
+        void changeTurn() - changes game turn.
+*/
+
+
+
+
 var game;
 
 function Game(name1, name2){
     this.name1 = name1 || "Player #1";
     this.name2 = name2 || "Player #2";
-    this.turn = true;
-    this.state = [true, true, true, true, true, true, true, true, true];
-    this.cross = [false, false, false, false, false, false, false, false, false];
-    this.zero = [false, false, false, false, false, false, false, false, false];
-    this.crossCount = 0;
-    this.zeroCount = 0;
-    this.block = false;
-    this.canvasID = ["can1", "can2", "can3", "can4", "can5", "can6", "can7", "can8", "can9"];
-    this.red = false;
-    this.p1_score = 0;
+    this.turn = true; //game turn. true - cross, false - zero.
+    this.state = [true, true, true, true, true, true, true, true, true]; //if cell was used set its value to false. This parameter is used to define                                                                              which cells were used.
+    this.cross = [false, false, false, false, false, false, false, false, false]; //used to define winning composition for crosses.
+    this.zero = [false, false, false, false, false, false, false, false, false]; //used to define winning composition for zeros.
+    this.crossCount = 0; //counts crosses to deside when win-composition should be checked (when >=3).
+    this.zeroCount = 0; //counts zeros to deside when win-composition should be checked (when >=3).
+    this.block = false; //block gamefield when winner is defined. 
+    this.canvasID = ["can1", "can2", "can3", "can4", "can5", "can6", "can7", "can8", "can9"]; //array of ids.
+    this.red = false; //used to set red color to redraw win-composition.
+    this.p1_score = 0; 
     this.p2_score = 0;
 
 }
@@ -31,9 +52,9 @@ function getNames(){
     document.getElementById("p2score").innerHTML = game.p2_score;
 }
 
-Game.prototype.setScore = function(dc){
+Game.prototype.setScore = function(){
     game.block = true;
-    if(dc == true){
+    if(game.turn == true){
         game.p1_score++;
         document.getElementById("p1score").innerHTML = game.p1_score;
     }
@@ -47,12 +68,10 @@ Game.prototype.changeStates = function(i){
     if(game.turn == true){
         game.cross[i] = true;
         game.crossCount++;
-        //game.turn = false;
     }
     else{
         game.zero[i] = true;
         game.zeroCount++;
-        //game.turn = true;
     }
     game.state[i] = false;
     
@@ -63,19 +82,14 @@ Game.prototype.changeStates = function(i){
             if(game.state[k] == true)
                 break;
             else{
-                j++;                
+                j++;                //check if we have all cells used but no winner.
                 if(j == 9 && x == false){
                     alert("Dead Heat!");
                 }
             }
         }//for
-  
     }
-    
     game.changeTurn();
-    
-    
-    
 };
 
 Game.prototype.checkWinner = function(){
@@ -85,64 +99,64 @@ Game.prototype.checkWinner = function(){
             sender = [game.canvasID[0], game.canvasID[4], game.canvasID[8]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(true);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
         else if(game.cross[2] == true && game.cross[4] == true && game.cross[6] == true){
             sender = [game.canvasID[2], game.canvasID[4], game.canvasID[6]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(true);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
         else if(game.cross[0] == true && game.cross[1] == true && game.cross[2] == true){
             sender = [game.canvasID[0], game.canvasID[1], game.canvasID[2]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(true);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
         else if(game.cross[3] == true && game.cross[4] == true && game.cross[5] == true){
             sender = [game.canvasID[3], game.canvasID[4], game.canvasID[5]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(true);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
         else if(game.cross[6] == true && game.cross[7] == true && game.cross[8] == true){
             sender = [game.canvasID[6], game.canvasID[7], game.canvasID[8]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(true);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
         else if(game.cross[0] == true && game.cross[3] == true && game.cross[6] == true){
             sender = [game.canvasID[0], game.canvasID[3], game.canvasID[6]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(true);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
         else if(game.cross[1] == true && game.cross[4] == true && game.cross[7] == true){
             sender = [game.canvasID[1], game.canvasID[4], game.canvasID[7]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(true);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
         else if(game.cross[2] == true && game.cross[5] == true && game.cross[8] == true){
             sender = [game.canvasID[2], game.canvasID[5], game.canvasID[8]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(true);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
     }
@@ -151,64 +165,64 @@ Game.prototype.checkWinner = function(){
             sender = [game.canvasID[0], game.canvasID[4], game.canvasID[8]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(false);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
         else if(game.zero[2] == true && game.zero[4] == true && game.zero[6] == true){
             sender = [game.canvasID[2], game.canvasID[4], game.canvasID[6]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(false);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
         else if(game.zero[0] == true && game.zero[1] == true && game.zero[2] == true){
             sender = [game.canvasID[0], game.canvasID[1], game.canvasID[2]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(false);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
         else if(game.zero[3] == true && game.zero[4] == true && game.zero[5] == true){
             sender = [game.canvasID[3], game.canvasID[4], game.canvasID[5]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(false);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
         else if(game.zero[6] == true && game.zero[7] == true && game.zero[8] == true){
             sender = [game.canvasID[6], game.canvasID[7], game.canvasID[8]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(false);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
         else if(game.zero[0] == true && game.zero[3] == true && game.zero[6] == true){
             sender = [game.canvasID[0], game.canvasID[3], game.canvasID[6]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(false);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
         else if(game.zero[1] == true && game.zero[4] == true && game.zero[7] == true){
             sender = [game.canvasID[1], game.canvasID[4], game.canvasID[7]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(false);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
         else if(game.zero[2] == true && game.zero[5] == true && game.zero[8] == true){
             sender = [game.canvasID[2], game.canvasID[5], game.canvasID[8]];
             game.red = true;
             for(var i = 0; i < 3; i++)
-                drawFigure(sender[i]);
-            game.setScore(false);
+                game.drawFigure(sender[i]);
+            game.setScore();
             return true;
         }
     }
@@ -217,7 +231,7 @@ Game.prototype.checkWinner = function(){
     
 };
 
-function drawFigure(canID){
+Game.prototype.drawFigure = function(canID){
     if(game.turn == true){
         var c = document.getElementById(canID);
         var ctx = c.getContext("2d");
@@ -241,7 +255,7 @@ function drawFigure(canID){
             ctx.strokeStyle = '#ff0000';
         ctx.stroke();
     }
-}
+};
 
 
 function resetScore(){
@@ -304,55 +318,55 @@ function checkOrder(cell) {
             switch (cell){
             case "one":
                     if(game.state[0] == true){
-                        drawFigure(game.canvasID[0]);
+                        game.drawFigure(game.canvasID[0]);
                         game.changeStates(0);
                     }
                     break;
             case "two":
                     if(game.state[1] == true){
-                        drawFigure(game.canvasID[1]);
+                        game.drawFigure(game.canvasID[1]);
                         game.changeStates(1);
                     }
                     break;
             case "three":
                     if(game.state[2] == true){
-                        drawFigure(game.canvasID[2]);
+                        game.drawFigure(game.canvasID[2]);
                         game.changeStates(2);
                     }
                     break;
             case "four":
                     if(game.state[3] == true){
-                        drawFigure(game.canvasID[3]);
+                        game.drawFigure(game.canvasID[3]);
                         game.changeStates(3);  
                     }
                     break;
             case "five":
                     if(game.state[4] == true){
-                        drawFigure(game.canvasID[4]);
+                        game.drawFigure(game.canvasID[4]);
                         game.changeStates(4);
                     }
                     break;
             case "six":
                     if(game.state[5] == true){
-                        drawFigure(game.canvasID[5]);
+                        game.drawFigure(game.canvasID[5]);
                         game.changeStates(5);
                     }
                     break;
             case "seven":
                     if(game.state[6] == true){
-                        drawFigure(game.canvasID[6]);
+                        game.drawFigure(game.canvasID[6]);
                         game.changeStates(6);
                     }
                     break;
             case "eight":
                     if(game.state[7] == true){
-                        drawFigure(game.canvasID[7]);
+                        game.drawFigure(game.canvasID[7]);
                         game.changeStates(7);
                     }
                     break;
             case "nine":
                     if(game.state[8] == true){
-                        drawFigure(game.canvasID[8]);
+                        game.drawFigure(game.canvasID[8]);
                         game.changeStates(8);
                     }
                     break;
@@ -363,55 +377,55 @@ function checkOrder(cell) {
             switch (cell){
             case "one":
                     if(game.state[0] == true){
-                        drawFigure(game.canvasID[0]);
+                        game.drawFigure(game.canvasID[0]);
                         game.changeStates(0);
                     }
                     break;
             case "two":
                     if(game.state[1] == true){
-                        drawFigure(game.canvasID[1]);
+                        game.drawFigure(game.canvasID[1]);
                         game.changeStates(1);
                     }
                     break;
             case "three":
                     if(game.state[2] == true){
-                        drawFigure(game.canvasID[2]);
+                        game.drawFigure(game.canvasID[2]);
                         game.changeStates(2);
                     }
                     break;
             case "four":
                     if(game.state[3] == true){
-                        drawFigure(game.canvasID[3]);
+                        game.drawFigure(game.canvasID[3]);
                         game.changeStates(3);    
                     }
                     break;
             case "five":
                     if(game.state[4] == true){
-                        drawFigure(game.canvasID[4]);
+                        game.drawFigure(game.canvasID[4]);
                         game.changeStates(4);
                     }
                     break;
             case "six":
                     if(game.state[5] == true){
-                        drawFigure(game.canvasID[5]);
+                        game.drawFigure(game.canvasID[5]);
                         game.changeStates(5);
                     }
                     break;
             case "seven":
                     if(game.state[6] == true){
-                        drawFigure(game.canvasID[6]);
+                        game.drawFigure(game.canvasID[6]);
                         game.changeStates(6);
                     }
                     break;
             case "eight":
                     if(game.state[7] == true){
-                        drawFigure(game.canvasID[7]);
+                        game.drawFigure(game.canvasID[7]);
                         game.changeStates(7);
                     }
                     break;
             case "nine":
                     if(game.state[8] == true){
-                        drawFigure(game.canvasID[8]);
+                        game.drawFigure(game.canvasID[8]);
                         game.changeStates(8);
                     }
                     break;
