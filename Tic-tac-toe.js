@@ -16,7 +16,8 @@
         void changeTurn() - changes game turn.
 */
 
-
+//document.body.onload = getNames();
+           
 
 
 var game;

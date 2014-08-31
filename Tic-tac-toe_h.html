@@ -3,17 +3,23 @@
     <head>
         <title>Tic-tac-toe</title>
         <link rel="stylesheet" type="text/css" href="Tic-tac-toe.css" />
-        <script type="text/javascript" src="Tic-tac-toe.js"></script> 
+        <script type="text/javascript" src="bot.js"></script>
+
+
         
     </head>
-    <body onload="getNames();">
+    <body onload="getNamesBot();">
         <div id="backgr">
         <header>
             <h1>Tic-tac-toe!</h1>
             <nav>
                 <ul>
-                    <li class="liheader"><a href="Tic-tac-toe_h.html">Human</a></li>
-                    <li class="liheader"><a href="Tic-tac-toe_b.html">Bot</a></li>
+                    <!-- <li class="liheader"><a href="Tic-tac-toe_h.html">Human</a></li> -->
+                    <!-- <li class="liheader"><a href="Tic-tac-toe_b.html">Bot</a></li> -->
+                    <input type="radio" name="Option" id="hvh" value="Human vs. Human" onclick="setSrc();" /> 
+                        Human vs. Human
+                    <input type="radio" name="Option" id="hvb" value="Human vs. Bot" onclick="setSrc();"/>
+                        Human vs. Bot
                 </ul>
                 
             </nav>
