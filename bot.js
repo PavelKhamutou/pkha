@@ -1,4 +1,9 @@
 
+//document.body.onload = yooo1();
+
+function yooo1(){
+    alert("here is bot");
+}
 
 var gameBot;
 
@@ -79,12 +84,35 @@ GameBot.prototype.changeStates = function(i){
 };
 
 GameBot.prototype.changeTurn = function(){
-    if(gameBot.turn == true)
-        gameBot.turn = false;
-    else
-        gameBot.turn = true;
+    if(gameBot.block == false){
+        if(gameBot.turn == true)
+            gameBot.turn = false;
+        else
+            gameBot.turn = true;
+    }
 };
 
+function switchPlayers(){
+    //reset();
+    var swap = gameBot.name1;
+    gameBot.name1 = gameBot.name2;
+    gameBot.name2 = swap;
+    
+    swap = gameBot.p1_score;
+    gameBot.p1_score = gameBot.p2_score;
+    gameBot.p2_score = swap;
+    
+    document.getElementById("player1Name").innerHTML = gameBot.name1.substr(0, 14);
+    document.getElementById("player2Name").innerHTML = gameBot.name2.substr(0, 14);
+    
+    document.getElementById("p1score").innerHTML = gameBot.p1_score;
+    document.getElementById("p2score").innerHTML = gameBot.p2_score;
+    /*if(gameBot.name1 == "Bot"){
+        gameBot.turn = false;
+        gameBot.botTurn();
+    }*/
+    reset();
+}
 
 GameBot.prototype.botTurn = function(){
     if(gameBot.turn == false && gameBot.block == false){
@@ -112,13 +140,25 @@ GameBot.prototype.botTurn = function(){
 
 GameBot.prototype.setScore = function(){
     gameBot.block = true;
-    if(gameBot.turn == true){
-        gameBot.p1_score++;
-        document.getElementById("p1score").innerHTML = gameBot.p1_score;
+    if(gameBot.name1 == "Bot"){
+        if(gameBot.turn == false){
+            gameBot.p1_score++;
+            document.getElementById("p1score").innerHTML = gameBot.p1_score;
+        }
+        else{
+            gameBot.p2_score++;
+            document.getElementById("p2score").innerHTML = gameBot.p2_score;
+        }    
     }
     else{
-        gameBot.p2_score++;
-        document.getElementById("p2score").innerHTML = gameBot.p2_score;
+        if(gameBot.turn == true){
+            gameBot.p1_score++;
+            document.getElementById("p1score").innerHTML = gameBot.p1_score;
+        }
+        else{
+            gameBot.p2_score++;
+            document.getElementById("p2score").innerHTML = gameBot.p2_score;
+        }
     }
 };
 
@@ -128,6 +168,7 @@ GameBot.prototype.checkWinner = function(){
         if(gameBot.cross[0] == true && gameBot.cross[4] == true && gameBot.cross[8] == true){
             sender = [gameBot.canvasID[0], gameBot.canvasID[4], gameBot.canvasID[8]];
             gameBot.red = true;
+            alert("asd");
             for(var i = 0; i < 3; i++)
                 gameBot.drawFigure(sender[i]);
             gameBot.setScore();
@@ -194,6 +235,7 @@ GameBot.prototype.checkWinner = function(){
         if(gameBot.zero[0] == true && gameBot.zero[4] == true && gameBot.zero[8] == true){
             sender = [gameBot.canvasID[0], gameBot.canvasID[4], gameBot.canvasID[8]];
             gameBot.red = true;
+            alert("asd2");
             for(var i = 0; i < 3; i++)
                 gameBot.drawFigure(sender[i]);
             gameBot.setScore();
@@ -279,6 +321,10 @@ function reset(){
     gameBot.red = false;
     gameBot.block = false;
     gameBot.clearArea();
+    if(gameBot.name1 == "Bot"){
+        gameBot.turn = false;  
+        gameBot.botTurn();
+    }
 }
 
 GameBot.prototype.clearArea = function(){

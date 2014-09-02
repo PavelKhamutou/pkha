@@ -54,3 +54,29 @@
             } 
         </script> 
         <script type="text/javascript" id="jsscript" src="Tic-tac-toe.js"></script> -->
+
+
+<script type="text/javascript">
+            function setSrc(){
+                if(document.getElementById("hvh").checked){ //if human vs human picked
+                    alert("h" + document.getElementById("hvh").checked);
+                    var node = document.getElementById("scriptSet");
+                    while(node.firstChild)
+                        node.removeChild(node.firstChild);
+                    
+                    document.getElementById("scriptSet").innerHTML = '<script type="text/javascript" src="Tic-tac-toe.js" />';
+                    alert("done human");
+                    
+                }
+                else{   //if hyman vs bot picked
+                    alert("b" + document.getElementById("hvb").checked);
+                    var node = document.getElementById("scriptSet");
+                    while(node.firstChild)
+                        node.removeChild(node.firstChild);
+                    
+                    document.getElementById("scriptSet").innerHTML = '<script type="text/javascript" src="bot.js" />';
+                    yooo();
+                    alert("done bot");
+                }
+            }
+        </script> 

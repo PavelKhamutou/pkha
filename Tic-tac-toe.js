@@ -16,9 +16,11 @@
         void changeTurn() - changes game turn.
 */
 
-//document.body.onload = getNames();
+//document.body.onload = yooo();
            
-
+function yooo(){
+    alert("here is human");
+}
 
 var game;
 
@@ -45,7 +47,7 @@ function getNames(){
     var name1 = prompt("Hello, write name of the 1st player!");
     var name2 = prompt("Hello, write name of the 2nd player!");
     game = new Game(name1, name2);
-    
+    yooo1();
     //setting names
     document.getElementById("player1Name").innerHTML = game.name1.substr(0, 14);
     document.getElementById("player2Name").innerHTML = game.name2.substr(0, 14);
