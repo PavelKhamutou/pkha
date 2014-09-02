@@ -16,12 +16,6 @@
         void changeTurn() - changes game turn.
 */
 
-//document.body.onload = yooo();
-           
-function yooo(){
-    alert("here is human");
-}
-
 var game;
 
 function Game(name1, name2){
@@ -38,6 +32,7 @@ function Game(name1, name2){
     this.red = false; //used to set red color to redraw win-composition.
     this.p1_score = 0; 
     this.p2_score = 0;
+    console.log("Created game!");
 
 }
 
@@ -47,7 +42,6 @@ function getNames(){
     var name1 = prompt("Hello, write name of the 1st player!");
     var name2 = prompt("Hello, write name of the 2nd player!");
     game = new Game(name1, name2);
-    yooo1();
     //setting names
     document.getElementById("player1Name").innerHTML = game.name1.substr(0, 14);
     document.getElementById("player2Name").innerHTML = game.name2.substr(0, 14);
@@ -263,40 +257,82 @@ Game.prototype.drawFigure = function(canID){
 
 function resetScore(){
     reset();
-    game.p1_score = 0;
-    game.p2_score = 0;
-    document.getElementById("p1score").innerHTML = game.p1_score;
-    document.getElementById("p2score").innerHTML = game.p2_score;
+    if(isBot == false){
+        game.p1_score = 0;
+        game.p2_score = 0;
+        document.getElementById("p1score").innerHTML = game.p1_score;
+        document.getElementById("p2score").innerHTML = game.p2_score;
+    }
+    else{
+        gameBot.p1_score = 0;
+        gameBot.p2_score = 0;
+        document.getElementById("p1score").innerHTML = gameBot.p1_score;
+        document.getElementById("p2score").innerHTML = gameBot.p2_score;
+    }
 }
 
 function reset(){
-    game.turn = true;
-    game.state = [true, true, true, true, true, true, true, true, true];
-    game.cross = [false, false, false, false, false, false, false, false, false];
-    game.zero = [false, false, false, false, false, false, false, false, false];
-    game.crossCount = 0;
-    game.zeroCount = 0;
-    game.red = false;
-    game.block = false;
-    game.clearArea();
+    if(isBot == false){
+        game.turn = true;
+        game.state = [true, true, true, true, true, true, true, true, true];
+        game.cross = [false, false, false, false, false, false, false, false, false];
+        game.zero = [false, false, false, false, false, false, false, false, false];
+        game.crossCount = 0;
+        game.zeroCount = 0;
+        game.red = false;
+        game.block = false;
+        game.clearArea();
+    }
+    else{
+        gameBot.turn = true;
+        gameBot.state = [true, true, true, true, true, true, true, true, true];
+        gameBot.cross = [false, false, false, false, false, false, false, false, false];
+        gameBot.zero = [false, false, false, false, false, false, false, false, false];
+        gameBot.crossCount = 0;
+        gameBot.zeroCount = 0;
+        gameBot.red = false;
+        gameBot.block = false;
+        gameBot.clearArea();
+        if(gameBot.name1 == "Bot"){
+            gameBot.turn = false;  
+            gameBot.botTurn();
+        }
+    }
 }
 
 
 function switchPlayers(){
+    if(isBot == false){
+        var swap = game.name1;
+        game.name1 = game.name2;
+        game.name2 = swap;
+
+        swap = game.p1_score;
+        game.p1_score = game.p2_score;
+        game.p2_score = swap;
+
+        document.getElementById("player1Name").innerHTML = game.name1.substr(0, 14);
+        document.getElementById("player2Name").innerHTML = game.name2.substr(0, 14);
+
+        document.getElementById("p1score").innerHTML = game.p1_score;
+        document.getElementById("p2score").innerHTML = game.p2_score;
+    }
+    else{
+        var swap = gameBot.name1;
+        gameBot.name1 = gameBot.name2;
+        gameBot.name2 = swap;
+
+        swap = gameBot.p1_score;
+        gameBot.p1_score = gameBot.p2_score;
+        gameBot.p2_score = swap;
+
+        document.getElementById("player1Name").innerHTML = gameBot.name1.substr(0, 14);
+        document.getElementById("player2Name").innerHTML = gameBot.name2.substr(0, 14);
+
+        document.getElementById("p1score").innerHTML = gameBot.p1_score;
+        document.getElementById("p2score").innerHTML = gameBot.p2_score;
+    }
     reset();
-    var swap = game.name1;
-    game.name1 = game.name2;
-    game.name2 = swap;
-    
-    swap = game.p1_score;
-    game.p1_score = game.p2_score;
-    game.p2_score = swap;
-    
-    document.getElementById("player1Name").innerHTML = game.name1.substr(0, 14);
-    document.getElementById("player2Name").innerHTML = game.name2.substr(0, 14);
-    
-    document.getElementById("p1score").innerHTML = game.p1_score;
-    document.getElementById("p2score").innerHTML = game.p2_score;
 }
 
 
@@ -315,125 +351,190 @@ Game.prototype.changeTurn = function(){
 };
 
 function checkOrder(cell) {
-    //alert("hello"); 
-    if (game.block == false){
-        if(game.turn == true){
+    //alert(game.turn); 
+    
+    if(isBot == false){
+    
+        if (game.block == false){
+            if(game.turn == true){
+                switch (cell){
+                case "one":
+                        if(game.state[0] == true){
+                            game.drawFigure(game.canvasID[0]);
+                            game.changeStates(0);
+                        }
+                        break;
+                case "two":
+                        if(game.state[1] == true){
+                            game.drawFigure(game.canvasID[1]);
+                            game.changeStates(1);
+                        }
+                        break;
+                case "three":
+                        if(game.state[2] == true){
+                            game.drawFigure(game.canvasID[2]);
+                            game.changeStates(2);
+                        }
+                        break;
+                case "four":
+                        if(game.state[3] == true){
+                            game.drawFigure(game.canvasID[3]);
+                            game.changeStates(3);  
+                        }
+                        break;
+                case "five":
+                        if(game.state[4] == true){
+                            game.drawFigure(game.canvasID[4]);
+                            game.changeStates(4);
+                        }
+                        break;
+                case "six":
+                        if(game.state[5] == true){
+                            game.drawFigure(game.canvasID[5]);
+                            game.changeStates(5);
+                        }
+                        break;
+                case "seven":
+                        if(game.state[6] == true){
+                            game.drawFigure(game.canvasID[6]);
+                            game.changeStates(6);
+                        }
+                        break;
+                case "eight":
+                        if(game.state[7] == true){
+                            game.drawFigure(game.canvasID[7]);
+                            game.changeStates(7);
+                        }
+                        break;
+                case "nine":
+                        if(game.state[8] == true){
+                            game.drawFigure(game.canvasID[8]);
+                            game.changeStates(8);
+                        }
+                        break;
+
+                } //switch
+            } //if
+            else{   //game.turn == false
+                switch (cell){
+                case "one":
+                        if(game.state[0] == true){
+                            game.drawFigure(game.canvasID[0]);
+                            game.changeStates(0);
+                        }
+                        break;
+                case "two":
+                        if(game.state[1] == true){
+                            game.drawFigure(game.canvasID[1]);
+                            game.changeStates(1);
+                        }
+                        break;
+                case "three":
+                        if(game.state[2] == true){
+                            game.drawFigure(game.canvasID[2]);
+                            game.changeStates(2);
+                        }
+                        break;
+                case "four":
+                        if(game.state[3] == true){
+                            game.drawFigure(game.canvasID[3]);
+                            game.changeStates(3);    
+                        }
+                        break;
+                case "five":
+                        if(game.state[4] == true){
+                            game.drawFigure(game.canvasID[4]);
+                            game.changeStates(4);
+                        }
+                        break;
+                case "six":
+                        if(game.state[5] == true){
+                            game.drawFigure(game.canvasID[5]);
+                            game.changeStates(5);
+                        }
+                        break;
+                case "seven":
+                        if(game.state[6] == true){
+                            game.drawFigure(game.canvasID[6]);
+                            game.changeStates(6);
+                        }
+                        break;
+                case "eight":
+                        if(game.state[7] == true){
+                            game.drawFigure(game.canvasID[7]);
+                            game.changeStates(7);
+                        }
+                        break;
+                case "nine":
+                        if(game.state[8] == true){
+                            game.drawFigure(game.canvasID[8]);
+                            game.changeStates(8);
+                        }
+                        break;
+
+                } //switch
+            } //else
+        } //block
+    }
+    else{
+        if(gameBot.turn == true && gameBot.block == false){
             switch (cell){
             case "one":
-                    if(game.state[0] == true){
-                        game.drawFigure(game.canvasID[0]);
-                        game.changeStates(0);
+                    if(gameBot.state[0] == true){
+                        gameBot.drawFigure(gameBot.canvasID[0]);    
+                        gameBot.changeStates(0);
                     }
                     break;
             case "two":
-                    if(game.state[1] == true){
-                        game.drawFigure(game.canvasID[1]);
-                        game.changeStates(1);
+                    if(gameBot.state[1] == true){
+                        gameBot.drawFigure(gameBot.canvasID[1]);
+                        gameBot.changeStates(1);
                     }
                     break;
             case "three":
-                    if(game.state[2] == true){
-                        game.drawFigure(game.canvasID[2]);
-                        game.changeStates(2);
+                    if(gameBot.state[2] == true){
+                        gameBot.drawFigure(gameBot.canvasID[2]);
+                        gameBot.changeStates(2);
                     }
                     break;
             case "four":
-                    if(game.state[3] == true){
-                        game.drawFigure(game.canvasID[3]);
-                        game.changeStates(3);  
+                    if(gameBot.state[3] == true){
+                        gameBot.drawFigure(gameBot.canvasID[3]);
+                        gameBot.changeStates(3);  
                     }
                     break;
             case "five":
-                    if(game.state[4] == true){
-                        game.drawFigure(game.canvasID[4]);
-                        game.changeStates(4);
+                    if(gameBot.state[4] == true){
+                        gameBot.drawFigure(gameBot.canvasID[4]);
+                        gameBot.changeStates(4);
                     }
                     break;
             case "six":
-                    if(game.state[5] == true){
-                        game.drawFigure(game.canvasID[5]);
-                        game.changeStates(5);
+                    if(gameBot.state[5] == true){
+                        gameBot.drawFigure(gameBot.canvasID[5]);
+                        gameBot.changeStates(5);
                     }
                     break;
             case "seven":
-                    if(game.state[6] == true){
-                        game.drawFigure(game.canvasID[6]);
-                        game.changeStates(6);
+                    if(gameBot.state[6] == true){
+                        gameBot.drawFigure(gameBot.canvasID[6]);
+                        gameBot.changeStates(6);
                     }
                     break;
             case "eight":
-                    if(game.state[7] == true){
-                        game.drawFigure(game.canvasID[7]);
-                        game.changeStates(7);
+                    if(gameBot.state[7] == true){
+                        gameBot.drawFigure(gameBot.canvasID[7]);
+                        gameBot.changeStates(7);
                     }
                     break;
             case "nine":
-                    if(game.state[8] == true){
-                        game.drawFigure(game.canvasID[8]);
-                        game.changeStates(8);
+                    if(gameBot.state[8] == true){
+                        gameBot.drawFigure(gameBot.canvasID[8]);
+                        gameBot.changeStates(8);
                     }
-                    break;
+                break;
 
             } //switch
         } //if
-        else{   //game.turn == false
-            switch (cell){
-            case "one":
-                    if(game.state[0] == true){
-                        game.drawFigure(game.canvasID[0]);
-                        game.changeStates(0);
-                    }
-                    break;
-            case "two":
-                    if(game.state[1] == true){
-                        game.drawFigure(game.canvasID[1]);
-                        game.changeStates(1);
-                    }
-                    break;
-            case "three":
-                    if(game.state[2] == true){
-                        game.drawFigure(game.canvasID[2]);
-                        game.changeStates(2);
-                    }
-                    break;
-            case "four":
-                    if(game.state[3] == true){
-                        game.drawFigure(game.canvasID[3]);
-                        game.changeStates(3);    
-                    }
-                    break;
-            case "five":
-                    if(game.state[4] == true){
-                        game.drawFigure(game.canvasID[4]);
-                        game.changeStates(4);
-                    }
-                    break;
-            case "six":
-                    if(game.state[5] == true){
-                        game.drawFigure(game.canvasID[5]);
-                        game.changeStates(5);
-                    }
-                    break;
-            case "seven":
-                    if(game.state[6] == true){
-                        game.drawFigure(game.canvasID[6]);
-                        game.changeStates(6);
-                    }
-                    break;
-            case "eight":
-                    if(game.state[7] == true){
-                        game.drawFigure(game.canvasID[7]);
-                        game.changeStates(7);
-                    }
-                    break;
-            case "nine":
-                    if(game.state[8] == true){
-                        game.drawFigure(game.canvasID[8]);
-                        game.changeStates(8);
-                    }
-                    break;
-
-            } //switch
-        } //else
-    } //block
+    }
 }

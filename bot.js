@@ -1,18 +1,12 @@
 
-//document.body.onload = yooo1();
-
-function yooo1(){
-    alert("here is bot");
-}
-
 var gameBot;
 
 function GameBot(name1){
     this.name1 = name1 || "Player #1";
     this.name2 = "Bot";
+    this.isbot = true;
     this.turn = true; //game turn. true - cross, false - zero.
     this.state = [true, true, true, true, true, true, true, true, true]; //if cell was used set its value to false. This parameter is used to define                                                                              which cells were used.
-    //this.randArray = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     this.cross = [false, false, false, false, false, false, false, false, false]; //used to define winning composition for crosses.
     this.zero = [false, false, false, false, false, false, false, false, false]; //used to define winning composition for zeros.
     this.crossCount = 0; //counts crosses to deside when win-composition should be checked (when >=3).
@@ -23,7 +17,19 @@ function GameBot(name1){
     this.p1_score = 0; 
     this.p2_score = 0;
 
-    alert("Created!");
+    console.log("Created gameBot!");
+}
+
+function getNamesBot(){
+    var name1 = prompt("Hello, write your name!");
+    if(name1 == "Bot")
+        name1 = "YouCan'tHackMe";
+    gameBot = new GameBot(name1);   
+    //setting names
+    document.getElementById("player1Name").innerHTML = gameBot.name1.substr(0, 14);
+    document.getElementById("player2Name").innerHTML = gameBot.name2;
+    document.getElementById("p1score").innerHTML = gameBot.p1_score;
+    document.getElementById("p2score").innerHTML = gameBot.p2_score;
 }
 
 GameBot.prototype.drawFigure = function(canID){
@@ -92,28 +98,6 @@ GameBot.prototype.changeTurn = function(){
     }
 };
 
-function switchPlayers(){
-    //reset();
-    var swap = gameBot.name1;
-    gameBot.name1 = gameBot.name2;
-    gameBot.name2 = swap;
-    
-    swap = gameBot.p1_score;
-    gameBot.p1_score = gameBot.p2_score;
-    gameBot.p2_score = swap;
-    
-    document.getElementById("player1Name").innerHTML = gameBot.name1.substr(0, 14);
-    document.getElementById("player2Name").innerHTML = gameBot.name2.substr(0, 14);
-    
-    document.getElementById("p1score").innerHTML = gameBot.p1_score;
-    document.getElementById("p2score").innerHTML = gameBot.p2_score;
-    /*if(gameBot.name1 == "Bot"){
-        gameBot.turn = false;
-        gameBot.botTurn();
-    }*/
-    reset();
-}
-
 GameBot.prototype.botTurn = function(){
     if(gameBot.turn == false && gameBot.block == false){
         var tmp = [];
@@ -124,18 +108,16 @@ GameBot.prototype.botTurn = function(){
                 k++;
             }
         }
-        /*
-        for(var sss = 0; sss < tmp.length; sss++){
-            document.write(tmp[sss]);
-        }
-        */
-        var randcell = Math.floor((Math.random() * tmp.length) + 0);
 
+        var randcell = Math.floor((Math.random() * tmp.length) + 0);
+        //here i should have added a delay. this way doesn't work.
+        //setTimeout(gameBot.drawFigure(gameBot.canvasID[tmp[randcell]]), 3000);
 
         gameBot.drawFigure(gameBot.canvasID[tmp[randcell]]);
         gameBot.changeStates(tmp[randcell]);
       
     }
+
 };
 
 GameBot.prototype.setScore = function(){
@@ -168,7 +150,6 @@ GameBot.prototype.checkWinner = function(){
         if(gameBot.cross[0] == true && gameBot.cross[4] == true && gameBot.cross[8] == true){
             sender = [gameBot.canvasID[0], gameBot.canvasID[4], gameBot.canvasID[8]];
             gameBot.red = true;
-            alert("asd");
             for(var i = 0; i < 3; i++)
                 gameBot.drawFigure(sender[i]);
             gameBot.setScore();
@@ -235,7 +216,6 @@ GameBot.prototype.checkWinner = function(){
         if(gameBot.zero[0] == true && gameBot.zero[4] == true && gameBot.zero[8] == true){
             sender = [gameBot.canvasID[0], gameBot.canvasID[4], gameBot.canvasID[8]];
             gameBot.red = true;
-            alert("asd2");
             for(var i = 0; i < 3; i++)
                 gameBot.drawFigure(sender[i]);
             gameBot.setScore();
@@ -298,34 +278,8 @@ GameBot.prototype.checkWinner = function(){
             return true;
         }
     }
-    
     return false;
-    
 };
-
-function resetScore(){
-    reset();
-    gameBot.p1_score = 0;
-    gameBot.p2_score = 0;
-    document.getElementById("p1score").innerHTML = gameBot.p1_score;
-    document.getElementById("p2score").innerHTML = gameBot.p2_score;
-}
-
-function reset(){
-    gameBot.turn = true;
-    gameBot.state = [true, true, true, true, true, true, true, true, true];
-    gameBot.cross = [false, false, false, false, false, false, false, false, false];
-    gameBot.zero = [false, false, false, false, false, false, false, false, false];
-    gameBot.crossCount = 0;
-    gameBot.zeroCount = 0;
-    gameBot.red = false;
-    gameBot.block = false;
-    gameBot.clearArea();
-    if(gameBot.name1 == "Bot"){
-        gameBot.turn = false;  
-        gameBot.botTurn();
-    }
-}
 
 GameBot.prototype.clearArea = function(){
     for(var i = 0; i < gameBot.canvasID.length; i++){
@@ -334,77 +288,3 @@ GameBot.prototype.clearArea = function(){
     }
 };
 
-function getNamesBot(){
-    var name1 = prompt("Hello, write your name!");
-    gameBot = new GameBot(name1);   
-    //setting names
-    document.getElementById("player1Name").innerHTML = gameBot.name1.substr(0, 14);
-    document.getElementById("player2Name").innerHTML = gameBot.name2;
-    document.getElementById("p1score").innerHTML = gameBot.p1_score;
-    document.getElementById("p2score").innerHTML = gameBot.p2_score;
-}
-
-
-
-function checkOrder(cell) {
-
-    if(gameBot.turn == true && gameBot.block == false){
-        switch (cell){
-        case "one":
-                if(gameBot.state[0] == true){
-                    gameBot.drawFigure(gameBot.canvasID[0]);    
-                    gameBot.changeStates(0);
-                }
-                break;
-        case "two":
-                if(gameBot.state[1] == true){
-                    gameBot.drawFigure(gameBot.canvasID[1]);
-                    gameBot.changeStates(1);
-                }
-                break;
-        case "three":
-                if(gameBot.state[2] == true){
-                    gameBot.drawFigure(gameBot.canvasID[2]);
-                    gameBot.changeStates(2);
-                }
-                break;
-        case "four":
-                if(gameBot.state[3] == true){
-                    gameBot.drawFigure(gameBot.canvasID[3]);
-                    gameBot.changeStates(3);  
-                }
-                break;
-        case "five":
-                if(gameBot.state[4] == true){
-                    gameBot.drawFigure(gameBot.canvasID[4]);
-                    gameBot.changeStates(4);
-                }
-                break;
-        case "six":
-                if(gameBot.state[5] == true){
-                    gameBot.drawFigure(gameBot.canvasID[5]);
-                    gameBot.changeStates(5);
-                }
-                break;
-        case "seven":
-                if(gameBot.state[6] == true){
-                    gameBot.drawFigure(gameBot.canvasID[6]);
-                    gameBot.changeStates(6);
-                }
-                break;
-        case "eight":
-                if(gameBot.state[7] == true){
-                    gameBot.drawFigure(gameBot.canvasID[7]);
-                    gameBot.changeStates(7);
-                }
-                break;
-        case "nine":
-                if(gameBot.state[8] == true){
-                    gameBot.drawFigure(gameBot.canvasID[8]);
-                    gameBot.changeStates(8);
-                }
-            break;
-
-        } //switch
-    } //if
-}
