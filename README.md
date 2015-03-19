@@ -1,4 +1,4 @@
 pkha
 ====
-
-for studyong purposes.
+****
+for studying purposes. or not? 
